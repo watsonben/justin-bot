@@ -26,7 +26,7 @@ bot.on('message', (e) => {
 	} else {
             // Post to a user
 	    console.log(e);
-	    bot.postMessageToChannel(e.channel, reply, { icon_url: icon });
+	    bot.postMessageToUser(e.channel, reply, { icon_url: icon });
 	}
     }
 });
