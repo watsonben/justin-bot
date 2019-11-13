@@ -32,11 +32,11 @@ const bot = new SlackBot({
  * When someone DMs or @tags us, reply with a semi-randomly generated response.
  */
 bot.on('message', (event) => {
+  const { channel, subtitle, type } = event;
   if ( // If someone sent us a message or tagged us, and it wasn't a bot.
-    event.type === 'desktop_notification'
-    && !event.subtitle.includes('(bot)')
+    type === 'desktop_notification'
+    && !subtitle.includes('(bot)')
   ) {
-    const { channel, subtitle } = event;
     let random_index;
     let reply;
     switch (subtitle) {
@@ -53,6 +53,6 @@ bot.on('message', (event) => {
         break;
     }
 
-    bot.postMessage(event.channel, reply, { icon_url: icon })
+    bot.postMessage(channel, reply, { icon_url: icon })
   }
 })
