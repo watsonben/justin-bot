@@ -12,6 +12,15 @@ const replies = [
   'No',
   'No',
   'No',
+  'Pong?',
+  'No u',
+  ':kappa:',
+];
+
+const ericReplies = [
+  'I guess you drew the short straw',
+  'Don\'t be down',
+  'I bet this goes over your head',
 ];
 
 const bot = new SlackBot({
@@ -23,13 +32,27 @@ const bot = new SlackBot({
  * When someone DMs or @tags us, reply with a semi-randomly generated response.
  */
 bot.on('message', (event) => {
+  const { channel, subtitle, type } = event;
   if ( // If someone sent us a message or tagged us, and it wasn't a bot.
-    event.type === 'desktop_notification'
-    && !event.subtitle.includes('(bot)')
+    type === 'desktop_notification'
+    && !subtitle.includes('(bot)')
   ) {
-    const random_index = Math.floor(Math.random() * replies.length);
-    const reply = replies[random_index];
+    let random_index;
+    let reply;
+    switch (subtitle) {
+      case 'Eric Lin':
+        random_index = Math.floor(Math.random() * ericReplies.length);
+        reply = ericReplies[random_index];
+        break;
+      case 'Sreeman Nalli':
+        reply = ':middle_finger:';
+        break;
+      default:
+        random_index = Math.floor(Math.random() * replies.length);
+        reply = replies[random_index];
+        break;
+    }
 
-    bot.postMessage(event.channel, reply, { icon_url: icon })
+    bot.postMessage(channel, reply, { icon_url: icon })
   }
 })
