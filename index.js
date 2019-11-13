@@ -1,7 +1,7 @@
 const SlackBot = require('slackbots');
 
-const user_name = 'Justin Hallier';
-const icon = 'https://avatars.slack-edge.com/2019-11-13/819110663314_b43a046dc4004e284606_512.jpg';
+const user_name = 'Justin Hallier'; // Name of the SlackBot
+const icon = 'https://avatars.slack-edge.com/2019-11-13/819110663314_b43a046dc4004e284606_512.jpg'; // Icon uploaded to Slack
 const replies = [
   'Sorry, don\'t want to help right now.',
   'Nope, I don\'t feel like it.',
@@ -12,13 +12,16 @@ const replies = [
   'No',
   'No',
   'No',
-]
+];
 
 const bot = new SlackBot({
-  token: process.env.SLACK_TOKEN,
+  token: process.env.SLACK_TOKEN, // This is in Heroku, and in .bash_profile
   name: user_name,
 });
 
+/**
+ * When someone DMs or @tags us, reply with a semi-randomly generated response.
+ */
 bot.on('message', (event) => {
   if ( // If someone sent us a message or tagged us, and it wasn't a bot.
     event.type === 'desktop_notification'
@@ -27,14 +30,6 @@ bot.on('message', (event) => {
     const random_index = Math.floor(Math.random() * replies.length);
     const reply = replies[random_index];
 
-    if (event.subtitle.charAt(0) === '#') {
-      // Post to a channel
-      console.log(event);
-      bot.postMessageToChannel(event.subtitle.slice(1), reply, { icon_url: icon })
-    }
-    else {
-      // Post to a user
-      bot.postMessage(event.channel, reply, { icon_url: icon })
-    }
+    bot.postMessage(event.channel, reply, { icon_url: icon })
   }
 })
