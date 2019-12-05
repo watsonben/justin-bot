@@ -25,12 +25,14 @@ const bot = new SlackBot({
 bot.on('message', (event) => {
   if ( // If someone sent us a message or tagged us, and it wasn't a bot.
     event.type === 'desktop_notification'
-    && !event.subtitle.includes('(bot)')
+    && !event.subtitlei.includes('(bot)')
+    && !event.content.includes('@here')
+    && !event.content.includes('@channel')
   ) {
-    console.log(event);
     const random_index = Math.floor(Math.random() * replies.length);
     const reply = replies[random_index];
 
     bot.postMessage(event.channel, reply, { icon_url: icon })
   }
+  console.log(event);
 })
