@@ -27,6 +27,7 @@ bot.on('message', (event) => {
     event.type === 'desktop_notification'
     && !event.subtitle.includes('(bot)')
   ) {
+    console.log(event);
     const random_index = Math.floor(Math.random() * replies.length);
     const reply = replies[random_index];
 
